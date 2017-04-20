@@ -89,7 +89,7 @@ void Engine::draw() const {
     sprites[i]->draw();
   }
   sand.draw();
-  player.draw();
+  playerSprites[0]->draw();
   dad.draw();
 
   SDL_Color red ={255,0,0,0};
@@ -167,26 +167,26 @@ void Engine::play() {
 
     if ( keystate[SDL_SCANCODE_A] && keystate[SDL_SCANCODE_D])
     {
-      player.stop();   
-   
+       playerSprites[0]->stop();   
+   		
     }
 
     else if (keystate[SDL_SCANCODE_A])
     {
-      player.left();
-      player.update(ticks);
+      playerSprites[0]->left();
+      playerSprites[0]->update(ticks);
 
     }
 
     else if (keystate[SDL_SCANCODE_D])
     {
-      player.right();
-      player.update(ticks);
+      playerSprites[0]->right();
+      playerSprites[0]->update(ticks);
     }
 
     if ( keystate[SDL_SCANCODE_W]  && keystate[SDL_SCANCODE_S])
     {
-      player.stop();
+      playerSprites[0]->stop();
       //player.update(ticks);
     }
 

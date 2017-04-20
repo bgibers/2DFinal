@@ -11,19 +11,22 @@ public:
   Frame(const Frame&);
   Frame& operator=(const Frame&);
 
+  ~Frame()=default;
+
   void draw(int x, int y) const;
   void draw(int x, int y, bool flip) const;
   void draw(int x, int y, float scale, bool flip, int lol) const;
   void draw(int sx, int sy, int dx, int dy) const;
 
   SDL_Texture* getTexture() const { return texture; }
-  int getWidth()  const { return width; }
-  int getHeight() const { return height; }
+  int getWidth()  const { return rect.w; }
+  int getHeight() const { return rect.h; }
+
+  Frame* crop(SDL_Rect)const;
 private:
   SDL_Renderer * renderer;
   SDL_Texture * texture;
-  int width;
-  int height;
+  SDL_Rect rect;
   Frame();
 };
 
