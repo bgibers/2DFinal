@@ -1,0 +1,107 @@
+<?xml version = "1.0"?>
+<GameData>
+<!-- screenTitle is also used to identify you and your animation. 
+     So make sure to include your name as part of the screenTitle -->
+<screenTitle>Brendan's Project </screenTitle>
+<title>Brendans Project</title>
+<maxStringSize>50</maxStringSize>
+
+<numberOfStars>10</numberOfStars>
+
+<frameCapOn>true</frameCapOn>
+<period>17</period>
+
+<maxFrames>300</maxFrames>
+<username>bgibers</username>
+
+<view>
+  <width>854</width>
+  <height>480</height>
+</view>
+
+<world>
+  <width>1900</width>
+  <height>550</height>
+</world>
+
+<mtns>
+  <file>images/mtns.png</file>
+  <factor>3</factor>
+  <transparency>false</transparency>
+</mtns>
+
+<mid>
+  <file>images/mid.png</file>
+  <factor>2</factor>
+  <transparency>false</transparency>
+</mid>
+
+<sand>
+  <file>images/sand.png</file>
+  <factor>1</factor>
+  <transparency>false</transparency>
+</sand>
+
+<font name="font">
+  <file>fonts/GoodDog.otf</file>
+  <size>24</size>
+  <red>255</red>
+  <green>255</green>
+  <blue>255</blue>
+  <alpha>0</alpha>
+</font>
+
+<Bat>
+  <file>images/bat.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>3</frames>
+  <frameInterval>40</frameInterval>
+  <speedX>100</speedX>
+  <speedY>10</speedY>
+  <transparency>true</transparency>
+</Bat>
+
+<simba>
+  <file>images/simbaRun.png</file>
+  <startLoc x="50" y="480"/>
+  <frames>6</frames>
+  <frameInterval>40</frameInterval>
+  <minFrameDelay>0</minFrameDelay>
+  <slowDown>1</slowDown>
+  <speedX>-150</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</simba>
+
+<simbaSit>
+  <file>images/simbaSit.png</file>
+  <startLoc x="50" y="480"/>
+  <frames>6</frames>
+  <frameInterval>40</frameInterval>
+  <minFrameDelay>0</minFrameDelay>
+  <slowDown>1</slowDown>
+  <speedX>-150</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</simbaSit>
+
+<dad>
+  <file>images/dad.png</file>
+  <startLoc x="1810" y="460"/>
+  <frames>4</frames>
+  <frameInterval>200</frameInterval>
+  <minFrameDelay>0</minFrameDelay>
+  <slowDown>0</slowDown>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</dad>
+
+<hud>
+  <width>300</width>
+  <height>150</height>
+  <xCoord>25</xCoord>
+  <yCoord>30</yCoord>
+</hud>
+
+</GameData>

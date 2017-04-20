@@ -1,0 +1,17 @@
+Name: Brendan Giberson
+
+Clemson Email Address: Bgibers@clemson.edu
+
+Project no: 4
+
+Project due date: April 3 2017
+
+Project description: A simple SDL program consisting of tracker framework meant to display polymorphism in action.  My project contains simba running to his dad.  Bats are incorported using painters algorithm. In the future I would like for simba to need to avoid obstacles and be able to destroy them.  The time as well as number of lives it takes you to reach his dad will calculate a score. I used the following sources for my animation.  I used gimp to edit as needed.
+
+Sources:
+https://www.spriters-resource.com/resources/sheets/44/46699.png
+http://orig07.deviantart.net/3c51/f/2016/075/d/0/blue_mountains_animation_by_grayamaroq-d9vbn8y.gif
+
+The easiest part of this project: Creating the painters algorithm and hud.
+
+Problems that I had in completing this project: I got stuck overloading draw with 4 parameters as I already had a 4 parameter overload.  This caused my complete project to bug out but I could not find the where the bug was originating.  
