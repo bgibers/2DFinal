@@ -19,6 +19,9 @@ OBJS = \
 	sprite.o \
 	multisprite.o \
 	twoWaysprite.o\
+	explodingSprite.o\
+	collisionStrategy.o\
+	chunk.o\
 	scaledSprite.o\
 	hud.o \
 	player.o\

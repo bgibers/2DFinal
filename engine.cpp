@@ -6,9 +6,11 @@
 #include "sprite.h"
 #include "twoWaysprite.h"
 #include "scaledSprite.h"
+#include "explodingSprite.h"
 #include "gamedata.h"
 #include "engine.h"
 #include "frameGenerator.h"
+#include "collisionStrategy.h"
 
 class SpriteCompare{
 public:
@@ -20,6 +22,7 @@ public:
 Engine::~Engine() { 
   std::cout << "Terminating program" << std::endl;
  for( auto&& items : sprites) {delete items;}
+ for( auto&& items : wildabeasts) {delete items;}
 }
 
 Engine::Engine() :
@@ -36,10 +39,13 @@ Engine::Engine() :
   dad("dad"),
   viewport( Viewport::getInstance() ),
   sprites(),
+  wildabeasts(),
   playerSprites(),
   currentSprite(-1),
 
-  makeVideo( false )
+  makeVideo( false ),
+  strategy( new RectangularCollisionStrategy ), //here
+  collisions(0)
 {
   constexpr float u = 0.8f;//mean
   constexpr float d = 0.4f;//std
@@ -69,6 +75,8 @@ Engine::Engine() :
     }
   }
 
+  wildabeasts.push_back(new TwoWaySprite("wildabeast"));
+
   
   playerSprites.push_back(&player);
   playerSprites.push_back(&player);
@@ -90,6 +98,10 @@ void Engine::draw() const {
   }
   sand.draw();
   playerSprites[0]->draw();
+  for(auto w : wildabeasts)
+  {
+    w->draw();
+  }
   dad.draw();
 
   SDL_Color red ={255,0,0,0};
@@ -117,12 +129,29 @@ void Engine::update(Uint32 ticks) {
   mid.update();
   sand.update();
   dad.update(ticks);
+  for(auto w : wildabeasts)
+  {
+    w->update(ticks);
+  }
   viewport.update(); // always update viewport last
 }
 
 void Engine::switchSprite(){
   //currentSprite = ++currentSprite % sprites.size();
   Viewport::getInstance().setObjectToTrack(sprites[currentSprite]);
+}
+
+void Engine::checkForCollisions() {
+  std::vector<Drawable*>::iterator it = wildabeasts.begin();
+  Drawable* player = playerSprites[0];
+  while ( it != wildabeasts.end() ) {
+    if ( strategy->execute(*player, **it) ) {
+      delete *it;
+      it = wildabeasts.erase(it);
+      ++collisions;
+    }
+    else ++it;
+  }
 }
 
 void Engine::play() {
@@ -146,6 +175,19 @@ void Engine::play() {
           else clock.pause();
         }
    
+        //tst 
+        if ( keystate[SDL_SCANCODE_E] ) {
+          // This is a hack! You should put the explosion in
+          // the sprite and  multisprite classes!
+          Sprite s("wildabeast");
+          s.setFrame(wildabeasts[0]->getFrame());
+          Drawable* boom = 
+            new ExplodingSprite(*static_cast<Sprite*>(&s));
+          delete wildabeasts[0];
+          wildabeasts[0] = boom;
+        }
+
+
        if (keystate[SDL_SCANCODE_F1] && hud.getDisplay() == true) {
           hud.setDisplay(false);
         }
@@ -205,6 +247,7 @@ void Engine::play() {
       clock.incrFrame();
       draw();
       update(ticks);
+      checkForCollisions();
       if ( makeVideo ) {
         frameGen.makeFrame();
       }

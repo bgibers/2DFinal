@@ -1,6 +1,6 @@
 #include <cmath>
 #include <random>
-#include "scaledsprite.h"
+#include "scaledSprite.h"
 #include "gamedata.h"
 #include "renderContext.h"
 

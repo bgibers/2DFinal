@@ -97,11 +97,32 @@
   <transparency>true</transparency>
 </dad>
 
+<wildabeast>
+  <file>images/wildabeast.png</file>
+  <startLoc x="500" y="460"/>
+  <frames>5</frames>
+  <frameInterval>100</frameInterval>
+  <minFrameDelay>0</minFrameDelay>
+  <slowDown>0</slowDown>
+  <speedX>50</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+  <chunk>
+      <size>100</size>
+      <distance>200</distance> 
+</chunk>
+</wildabeast>
+
 <hud>
   <width>300</width>
   <height>150</height>
   <xCoord>25</xCoord>
   <yCoord>30</yCoord>
 </hud>
+
+<chunk>
+      <size>9</size>
+      <distance>200</distance> 
+</chunk>
 
 </GameData>

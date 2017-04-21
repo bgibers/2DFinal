@@ -9,12 +9,15 @@
 #include "player.h"
 #include "multisprite.h"
 
+class CollisionStrategy;
+
 class Engine {
 public:
   Engine ();
   ~Engine ();
   void play();
   void switchSprite();
+  void checkForCollisions();
 
 private:
   const RenderContext* rc;
@@ -32,10 +35,13 @@ private:
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
+  std::vector<Drawable*> wildabeasts;
   std::vector<Player*> playerSprites;
 
   int currentSprite;
   bool makeVideo;
+  CollisionStrategy* strategy;
+  int collisions;
 
   void draw() const;
   void update(Uint32);
