@@ -6,18 +6,37 @@
 
 Player::Player(const std::string& name) : TwoWaySprite(name), 
 intitialVelocity(getVelocity()), 
-slowDown(Gamedata::getInstance().getXmlFloat(name+"/slowDown")){}//, clock(Clock::getInstance()){}
+slowDown(Gamedata::getInstance().getXmlFloat(name+"/slowDown")),
+bulletName( Gamedata::getInstance().getXmlStr(name+"/bullet") ),
+bullets( bulletName ){}//, clock(Clock::getInstance()){}
 
 Player::Player(const std::string& name, const std::string& name2) : TwoWaySprite(name, name2), 
 intitialVelocity(getVelocity()), 
-slowDown(Gamedata::getInstance().getXmlFloat(name+"/slowDown")),sitStatus(true){}
+slowDown(Gamedata::getInstance().getXmlFloat(name+"/slowDown")),sitStatus(true),
+bulletName( Gamedata::getInstance().getXmlStr(name+"/bullet") ),
+bullets( bulletName ){}
 
 Player::Player(const Player& p) :
 TwoWaySprite(p), 
-intitialVelocity(p.intitialVelocity), slowDown(p.slowDown)
-// clock(Clock::getInstance()) {} 
+intitialVelocity(p.intitialVelocity), slowDown(p.slowDown),bulletName(p.bulletName),
+bullets(p.bullets) {}
 
-{}
+void Player::shoot() { 
+  float x = getX()+getFrame()->getWidth();
+  float y = getY()+getFrame()->getHeight()/2;
+  // I'm not adding minSpeed to y velocity:
+  bullets.shoot( Vector2f(x, y), 
+    Vector2f(100+getVelocityX(), 0)
+  );
+}
+
+bool Player::b_collidedWith(const Drawable* obj) const {
+  return bullets.collidedWith( obj );
+}
+
+void Player::bulletDraw() const { //add to engine where draw is
+  bullets.draw();
+}
 
 void Player::stop()
 {
@@ -90,5 +109,6 @@ void Player::update(Uint32 ticks)
       //std::cout << "should flip" << std::endl;
 
   } 
+  bullets.update(ticks);
   //stop();
 }

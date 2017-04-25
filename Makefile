@@ -21,6 +21,8 @@ OBJS = \
 	twoWaysprite.o\
 	explodingSprite.o\
 	collisionStrategy.o\
+	bullet.o\
+	bulletPool.o\
 	chunk.o\
 	scaledSprite.o\
 	hud.o \

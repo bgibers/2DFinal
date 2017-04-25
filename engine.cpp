@@ -10,7 +10,7 @@
 #include "gamedata.h"
 #include "engine.h"
 #include "frameGenerator.h"
-#include "collisionStrategy.h"
+//#include "collisionStrategy.h"
 
 class SpriteCompare{
 public:

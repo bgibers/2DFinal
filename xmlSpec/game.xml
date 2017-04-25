@@ -64,6 +64,7 @@
 <simba>
   <file>images/simbaRun.png</file>
   <startLoc x="50" y="480"/>
+  <bullet>bug</bullet>
   <frames>6</frames>
   <frameInterval>40</frameInterval>
   <minFrameDelay>0</minFrameDelay>
@@ -80,6 +81,7 @@
 <simbaSit>
   <file>images/simbaSit.png</file>
   <startLoc x="50" y="480"/>
+  <bullet>bug</bullet>
   <frames>4</frames>
   <frameInterval>40</frameInterval>
   <minFrameDelay>0</minFrameDelay>
@@ -92,6 +94,16 @@
       <distance>200</distance> 
 </chunk>
 </simbaSit>
+
+<bug>
+  <file>images/bugs.png</file>
+  <interval>300</interval>
+  <distance>320</distance>
+  <startLoc x="100" y="100"/>
+  <speedX>200</speedX>
+  <speedY>0</speedY>
+  <strategy>rectangular</strategy>
+</bug>
 
 <dad>
   <file>images/dad.png</file>
