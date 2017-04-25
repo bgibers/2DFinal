@@ -1,6 +1,7 @@
 #include "twoWaysprite.h"
 #include "gamedata.h"
 #include "renderContext.h"
+#include "explodingSprite.h"
 
 void TwoWaySprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
@@ -23,6 +24,28 @@ TwoWaySprite::TwoWaySprite( const std::string& name) :
                     Gamedata::getInstance().getXmlInt(name+"/speedY"))
            ),
   frames( RenderContext::getInstance()->getFrames(name) ),
+ 
+  currentFrame(0),
+  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/frames") ),
+  frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval")),
+  timeSinceLastFrame( 0 ),
+  worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
+  frameWidth(frames[0]->getWidth()),
+  frameHeight(frames[0]->getHeight()),
+  timeToFlip(false)
+{ }
+
+TwoWaySprite::TwoWaySprite( const std::string& name, const std::string& change) :
+  Drawable(name, 
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"/startLoc/x"), 
+                    Gamedata::getInstance().getXmlInt(name+"/startLoc/y")), 
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"/speedX"),
+                    Gamedata::getInstance().getXmlInt(name+"/speedY"))
+           ),
+  frames( RenderContext::getInstance()->getFrames(name) ),
+  initial(RenderContext::getInstance()->getFrames(name) ),
+  change(RenderContext::getInstance()->getFrames(change)),
 
   currentFrame(0),
   numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/frames") ),
@@ -52,6 +75,16 @@ TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
 void TwoWaySprite::draw() const { 
   frames[currentFrame]->draw(getX(), getY(),timeToFlip);
 }
+
+/*Drawable* TwoWaySprite::blowUp()
+{
+    Sprite s("wildabeast");
+    s.setFrame(getFrame());
+    s.setPosition(getPosition());
+    Drawable* boom = 
+            new ExplodingSprite(*static_cast<Sprite*>(&s));
+            return boom;
+}*/
 
 void TwoWaySprite::update(Uint32 ticks) { 
   advanceFrame(ticks);

@@ -71,18 +71,26 @@
   <speedX>-150</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
+  <chunk>
+      <size>100</size>
+      <distance>200</distance> 
+</chunk>
 </simba>
 
 <simbaSit>
   <file>images/simbaSit.png</file>
   <startLoc x="50" y="480"/>
-  <frames>6</frames>
+  <frames>4</frames>
   <frameInterval>40</frameInterval>
   <minFrameDelay>0</minFrameDelay>
   <slowDown>1</slowDown>
-  <speedX>-150</speedX>
+  <speedX>-0</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
+  <chunk>
+      <size>100</size>
+      <distance>200</distance> 
+</chunk>
 </simbaSit>
 
 <dad>

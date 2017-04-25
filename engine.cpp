@@ -34,7 +34,7 @@ Engine::Engine() :
   mtns("mtns", Gamedata::getInstance().getXmlInt("mtns/factor") ),
   mid("mid", Gamedata::getInstance().getXmlInt("mid/factor") ),
   sand("sand", Gamedata::getInstance().getXmlInt("sand/factor") ),
-  player("simba"),
+  player("simba","simbaSit"),
   sit("simbaSit"),
   dad("dad"),
   viewport( Viewport::getInstance() ),
@@ -78,7 +78,6 @@ Engine::Engine() :
   wildabeasts.push_back(new TwoWaySprite("wildabeast"));
 
   
-  playerSprites.push_back(&player);
   playerSprites.push_back(&player);
   viewport.setObjectToTrack(&player);
   //switchSprite();
@@ -133,6 +132,10 @@ void Engine::update(Uint32 ticks) {
   {
     w->update(ticks);
   }
+  // if(playerSprites[0]->getStatus() == true)
+  // {
+  //     playerSprites[0]->update(ticks);
+  // }
   viewport.update(); // always update viewport last
 }
 
@@ -143,6 +146,7 @@ void Engine::switchSprite(){
 
 void Engine::checkForCollisions() {
   std::vector<Drawable*>::iterator it = wildabeasts.begin();
+
   Drawable* player = playerSprites[0];
   while ( it != wildabeasts.end() ) {
     if ( strategy->execute(*player, **it) ) {
@@ -152,6 +156,8 @@ void Engine::checkForCollisions() {
     }
     else ++it;
   }
+
+
 }
 
 void Engine::play() {
@@ -181,12 +187,18 @@ void Engine::play() {
           // the sprite and  multisprite classes!
           Sprite s("wildabeast");
           s.setFrame(wildabeasts[0]->getFrame());
+          s.setPosition(wildabeasts[0]->getPosition());
           Drawable* boom = 
             new ExplodingSprite(*static_cast<Sprite*>(&s));
           delete wildabeasts[0];
           wildabeasts[0] = boom;
+
         }
 
+        if( keystate[SDL_SCANCODE_R]){
+            //reset here something w chunk
+            wildabeasts[0] = new TwoWaySprite("wildabeast");
+        }
 
        if (keystate[SDL_SCANCODE_F1] && hud.getDisplay() == true) {
           hud.setDisplay(false);
@@ -217,13 +229,17 @@ void Engine::play() {
     {
       playerSprites[0]->left();
       playerSprites[0]->update(ticks);
-
     }
 
     else if (keystate[SDL_SCANCODE_D])
     {
       playerSprites[0]->right();
       playerSprites[0]->update(ticks);
+
+    }
+    else
+    {
+        playerSprites[0]->stop();   
     }
 
     if ( keystate[SDL_SCANCODE_W]  && keystate[SDL_SCANCODE_S])

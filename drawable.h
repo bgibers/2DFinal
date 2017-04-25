@@ -30,6 +30,7 @@ public:
   void setName(const std::string& n) { name = n;    }
 
   virtual const Frame* getFrame() const = 0;
+  virtual Drawable* blowUp() {return 0;}
 
   float getX() const  { return position[0]; }
   void  setX(float x) { position[0] = x;    }

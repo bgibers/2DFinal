@@ -4,10 +4,12 @@
 #include <vector>
 #include <cmath>
 #include "drawable.h"
+#include "sprite.h"
 
 class TwoWaySprite : public Drawable {
 public:
   TwoWaySprite(const std::string&);
+  TwoWaySprite(const std::string&, const std::string&);
   TwoWaySprite(const TwoWaySprite&);
 
   virtual void draw() const;
@@ -16,11 +18,15 @@ public:
     return frames[currentFrame]; 
   }
   void setFrames(const std::vector<Frame *> f);
+  //virtual Drawable* blowUp();
   virtual const std::vector<Frame *> allFrames() const {return frames;}
 
 protected:
 
    std::vector<Frame *> frames;
+   const std::vector<Frame *> initial;
+   const std::vector<Frame *> change;
+
 
 
   unsigned currentFrame;

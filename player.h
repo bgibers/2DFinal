@@ -11,6 +11,8 @@ class Player : public TwoWaySprite
 public:
 	Player();
 	Player(const std::string&);
+	Player(const std::string&, const std::string&);
+
 	Player(const Player& p);
 
 
@@ -21,13 +23,15 @@ public:
 	void right();
 	void up();
 	void down();
-	
+	bool getStatus() {return sitStatus;}
+	void setStatus(bool s) {sitStatus = s;}
 	protected:
 		Vector2f intitialVelocity;
 		const float slowDown;
 
 	private:
 	//	Clock& clock;
+		bool sitStatus;
 };
 
 #endif
