@@ -45,7 +45,8 @@ Engine::Engine() :
 
   makeVideo( false ),
   strategy( new RectangularCollisionStrategy ), //here
-  collisions(0)
+  collisions(0),
+  godMode(false)
 {
   constexpr float u = 0.8f;//mean
   constexpr float d = 0.4f;//std
@@ -151,23 +152,42 @@ void Engine::switchSprite(){
 void Engine::checkForCollisions() {
   std::vector<Drawable*>::iterator it = wildabeasts.begin();
 
-  Drawable* playerptr = playerSprites[0]; //should put player in sprite
+
+  std::vector<Drawable*>::iterator pit = playerSprites.begin();
+
   while ( it != wildabeasts.end() ) {
     //if ( strategy->execute(*player, **it) ) {
     if(player.collidedWith(*it)){
       // delete *it;
-      //ExplodingSprite* p = dynamic_cast<ExplodingSprite*>(*it);
+      ExplodingSprite* eT = dynamic_cast<ExplodingSprite*>(*it);
+      if(!eT){
       const Sprite s(**it,(*it)->getFrame());
       Drawable* boom = new ExplodingSprite(s);
       it = wildabeasts.erase(it);
       it = wildabeasts.insert(it,boom);
 
-      //this should be permenantly deleting
-      if(static_cast<ExplodingSprite*>(boom)->chunkCount() == 0) it = wildabeasts.erase(it);
-      ++collisions;
+       }//end es
+
+      }//end colided w
+
+      ExplodingSprite* eT = dynamic_cast<ExplodingSprite*>(*it);
+      if(!eT)
+      {
+      if ( strategy->execute(**it, **pit)) { 
+      ExplodingSprite* eS = dynamic_cast<ExplodingSprite*>(*pit);
+      if(!eS){
+      const Sprite s(**pit,(*pit)->getFrame());
+      Drawable* boom = new ExplodingSprite(s);
+      pit = playerSprites.erase(pit);
+      pit = playerSprites.insert(pit,boom);
+
+          }//end es
+      }//end strat execute
     }
-    else ++it;
-  }
+  
+    
+     ++it;
+  }//end while
 
 
 }
@@ -198,8 +218,20 @@ void Engine::play() {
             wildabeasts[0] = new TwoWaySprite("wildabeast");
         }
 
+         if( keystate[SDL_SCANCODE_G] && godMode){
+            godMode = false;
+             std::cout << "GodMode off" << std::endl;
+        }
+
+         else if( keystate[SDL_SCANCODE_G] && !godMode){
+            godMode = true;
+            std::cout << "GodMode on" << std::endl;
+        }
+
+
        if (keystate[SDL_SCANCODE_F1] && hud.getDisplay() == true) {
           hud.setDisplay(false);
+          std::cout << "Hud off" << std::endl;
         }
 
         else if (keystate[SDL_SCANCODE_F1] && hud.getDisplay() == false) {
@@ -263,7 +295,7 @@ void Engine::play() {
       clock.incrFrame();
       draw();
       update(ticks);
-      checkForCollisions();
+      if(!godMode){ checkForCollisions();}
       if ( makeVideo ) {
         frameGen.makeFrame();
       }

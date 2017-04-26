@@ -36,12 +36,13 @@ private:
 
   std::vector<Drawable*> sprites;
   std::vector<Drawable*> wildabeasts;
-  std::vector<Player*> playerSprites;
+  std::vector<Drawable*> playerSprites;
 
   int currentSprite;
   bool makeVideo;
   CollisionStrategy* strategy;
   int collisions;
+  bool godMode;
 
   void draw() const;
   void update(Uint32);
