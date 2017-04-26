@@ -26,7 +26,7 @@ public:
 	void setStatus(bool s) {sitStatus = s;}
 	void bulletDraw() const; //draw bullets
 	void shoot(); //shoot bullets
-	bool b_collidedWith(const Drawable*) const;//for collisions with bullets
+	bool collidedWith(const Drawable*) const;//for collisions with bullets
 	protected:
 		Vector2f intitialVelocity;
 		const float slowDown;
@@ -35,7 +35,7 @@ public:
 		bool sitStatus;
 		std::string bulletName;
 		BulletPool bullets;
-		
+
 };
 
 #endif

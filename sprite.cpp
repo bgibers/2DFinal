@@ -26,6 +26,15 @@ Sprite::Sprite(const Sprite& s) :
   frameHeight(s.getFrame()->getHeight())
 { }
 
+Sprite::Sprite(const Drawable& dr, const Frame* fr) :
+  Drawable(dr), 
+  frame(fr),
+  worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
+  frameWidth(frame->getWidth()),
+  frameHeight(frame->getHeight())
+{ }
+
 Sprite& Sprite::operator=(const Sprite& rhs) {
   Drawable::operator=( rhs );
   frame = rhs.frame;

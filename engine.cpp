@@ -97,6 +97,7 @@ void Engine::draw() const {
   }
   sand.draw();
   playerSprites[0]->draw();
+  player.bulletDraw();
   for(auto w : wildabeasts)
   {
     w->draw();
@@ -124,6 +125,9 @@ void Engine::draw() const {
 
 void Engine::update(Uint32 ticks) {
   for(auto* s : sprites) s->update(ticks);
+
+  playerSprites[0]->update(ticks);
+
   mtns.update();
   mid.update();
   sand.update();
@@ -147,11 +151,19 @@ void Engine::switchSprite(){
 void Engine::checkForCollisions() {
   std::vector<Drawable*>::iterator it = wildabeasts.begin();
 
-  Drawable* player = playerSprites[0];
+  Drawable* playerptr = playerSprites[0]; //should put player in sprite
   while ( it != wildabeasts.end() ) {
-    if ( strategy->execute(*player, **it) ) {
-      delete *it;
+    //if ( strategy->execute(*player, **it) ) {
+    if(player.collidedWith(*it)){
+      // delete *it;
+      //ExplodingSprite* p = dynamic_cast<ExplodingSprite*>(*it);
+      const Sprite s(**it,(*it)->getFrame());
+      Drawable* boom = new ExplodingSprite(s);
       it = wildabeasts.erase(it);
+      it = wildabeasts.insert(it,boom);
+
+      //this should be permenantly deleting
+      if(static_cast<ExplodingSprite*>(boom)->chunkCount() == 0) it = wildabeasts.erase(it);
       ++collisions;
     }
     else ++it;
@@ -180,20 +192,6 @@ void Engine::play() {
           if ( clock.isPaused() ) clock.unpause();
           else clock.pause();
         }
-   
-        //tst 
-        if ( keystate[SDL_SCANCODE_E] ) {
-          // This is a hack! You should put the explosion in
-          // the sprite and  multisprite classes!
-          Sprite s("wildabeast");
-          s.setFrame(wildabeasts[0]->getFrame());
-          s.setPosition(wildabeasts[0]->getPosition());
-          Drawable* boom = 
-            new ExplodingSprite(*static_cast<Sprite*>(&s));
-          delete wildabeasts[0];
-          wildabeasts[0] = boom;
-
-        }
 
         if( keystate[SDL_SCANCODE_R]){
             //reset here something w chunk
@@ -219,34 +217,36 @@ void Engine::play() {
       }
     }
 
-    if ( keystate[SDL_SCANCODE_A] && keystate[SDL_SCANCODE_D])
+    if ( (keystate[SDL_SCANCODE_A] && keystate[SDL_SCANCODE_D]) ||
+        (!keystate[SDL_SCANCODE_A] && !keystate[SDL_SCANCODE_D]))
     {
-       playerSprites[0]->stop();   
+       player.stop();   
    		
     }
 
     else if (keystate[SDL_SCANCODE_A])
     {
-      playerSprites[0]->left();
-      playerSprites[0]->update(ticks);
+      player.left();
+      //playerSprites[0]->update(ticks);
     }
 
     else if (keystate[SDL_SCANCODE_D])
     {
-      playerSprites[0]->right();
-      playerSprites[0]->update(ticks);
+      player.right();
+      //playerSprites[0]->update(ticks);
 
     }
-    else
-    {
-        playerSprites[0]->stop();   
-    }
+  
 
     if ( keystate[SDL_SCANCODE_W]  && keystate[SDL_SCANCODE_S])
     {
-      playerSprites[0]->stop();
+      player.stop();
       //player.update(ticks);
     }
+
+      if ( keystate[SDL_SCANCODE_SPACE]){
+        player.shoot();
+      }
 
  // else if (keystate[SDL_SCANCODE_W])
  //    {

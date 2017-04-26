@@ -22,15 +22,19 @@ intitialVelocity(p.intitialVelocity), slowDown(p.slowDown),bulletName(p.bulletNa
 bullets(p.bullets) {}
 
 void Player::shoot() { 
+  if(!sitStatus)
+  {
   float x = getX()+getFrame()->getWidth();
-  float y = getY()+getFrame()->getHeight()/2;
+  float y = getY()+getFrame()->getHeight()/3;
   // I'm not adding minSpeed to y velocity:
-  bullets.shoot( Vector2f(x, y), 
-    Vector2f(100+getVelocityX(), 0)
-  );
+
+    bullets.shoot( Vector2f(x, y), 
+    Vector2f(3 * getVelocityX(), 0)); 
+  
+}
 }
 
-bool Player::b_collidedWith(const Drawable* obj) const {
+bool Player::collidedWith(const Drawable* obj) const {
   return bullets.collidedWith( obj );
 }
 
@@ -40,10 +44,11 @@ void Player::bulletDraw() const { //add to engine where draw is
 
 void Player::stop()
 {
-	setVelocityX(slowDown * getVelocityX());
+  sitStatus = true;
+  frames = TwoWaySprite::change;
+	setVelocityX(0);
 	setVelocityY(0);
   //make sprite sheet swap
-   frames = TwoWaySprite::change;
 
 }
 
@@ -54,8 +59,8 @@ void Player::right()
 		setVelocityX(-intitialVelocity[0]);
 	}
 
-   // sitStatus=false;
-    frames = TwoWaySprite::initial;
+   sitStatus=false;
+  frames = TwoWaySprite::initial;
 	timeToFlip = false;
 }
 
@@ -67,7 +72,7 @@ void Player::left()
 	{
 		setVelocityX(intitialVelocity[0]);
 	}
-    // sitStatus=false;
+    sitStatus=false;
     frames = TwoWaySprite::initial;
 
 	timeToFlip = true;
@@ -86,6 +91,11 @@ void Player::down()
 void Player::update(Uint32 ticks)
 {
 
+  if(sitStatus) {
+  frames = TwoWaySprite::change;
+   }
+  else
+  {  
 	advanceFrame(ticks);
 
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
@@ -98,7 +108,7 @@ void Player::update(Uint32 ticks)
     setVelocityY( -fabs( getVelocityY() ) );
   }
 
-  if ( getX() <= 0) {
+  if ( getX() < 0) {
     setVelocityX( fabs( getVelocityX() ) );
     timeToFlip=false;
     //std::cout << "should flip back" << std::endl;
@@ -109,6 +119,7 @@ void Player::update(Uint32 ticks)
       //std::cout << "should flip" << std::endl;
 
   } 
+}
   bullets.update(ticks);
-  //stop();
+  stop();
 }
