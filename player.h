@@ -27,6 +27,8 @@ public:
 	void bulletDraw() const; //draw bullets
 	void shoot(); //shoot bullets
 	bool collidedWith(const Drawable*) const;//for collisions with bullets
+	bool getDead() {return dead;}
+	void setDead(bool d) {dead = d;}
 	protected:
 		Vector2f intitialVelocity;
 		const float slowDown;
@@ -35,6 +37,7 @@ public:
 		bool sitStatus;
 		std::string bulletName;
 		BulletPool bullets;
+		bool dead;
 
 };
 

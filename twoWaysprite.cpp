@@ -72,6 +72,26 @@ TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
   timeToFlip(s.timeToFlip)
   { }
 
+TwoWaySprite::TwoWaySprite( const std::string& name, const int rand) :
+  Drawable(name, 
+           Vector2f(randomStart(), 
+                    Gamedata::getInstance().getXmlInt(name+"/startLoc/y")), 
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"/speedX"),
+                    Gamedata::getInstance().getXmlInt(name+"/speedY"))
+           ),
+  frames( RenderContext::getInstance()->getFrames(name) ),
+ 
+  currentFrame(0),
+  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/frames") ),
+  frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval")),
+  timeSinceLastFrame( 0 ),
+  worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
+  frameWidth(frames[0]->getWidth()),
+  frameHeight(frames[0]->getHeight()),
+  timeToFlip(false)
+{ }
+
 void TwoWaySprite::draw() const { 
   frames[currentFrame]->draw(getX(), getY(),timeToFlip);
 }
@@ -85,6 +105,12 @@ void TwoWaySprite::draw() const {
             new ExplodingSprite(*static_cast<Sprite*>(&s));
             return boom;
 }*/
+
+int TwoWaySprite::randomStart() const
+{
+  int rn = rand()%(3000 - 200 + 1) + 200;
+  return rn;
+}
 
 void TwoWaySprite::update(Uint32 ticks) { 
   advanceFrame(ticks);

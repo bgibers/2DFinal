@@ -76,8 +76,13 @@ Engine::Engine() :
     }
   }
 
-  wildabeasts.push_back(new TwoWaySprite("wildabeast"));
 
+  unsigned int e = Gamedata::getInstance().getXmlInt("numberOfEnemys");
+  for(unsigned int i=0; i<e; ++i)
+  {
+    auto *s = new TwoWaySprite("wildabeast",1);
+    wildabeasts.push_back(s);
+  }
   
   playerSprites.push_back(&player);
   viewport.setObjectToTrack(&player);
@@ -157,10 +162,10 @@ void Engine::checkForCollisions() {
 
   while ( it != wildabeasts.end() ) {
     //if ( strategy->execute(*player, **it) ) {
-    if(player.collidedWith(*it)){
       // delete *it;
       ExplodingSprite* eT = dynamic_cast<ExplodingSprite*>(*it);
       if(!eT){
+      if(player.collidedWith(*it)){  
       const Sprite s(**it,(*it)->getFrame());
       Drawable* boom = new ExplodingSprite(s);
       it = wildabeasts.erase(it);
@@ -170,16 +175,17 @@ void Engine::checkForCollisions() {
 
       }//end colided w
 
-      ExplodingSprite* eT = dynamic_cast<ExplodingSprite*>(*it);
-      if(!eT)
+      ExplodingSprite* er = dynamic_cast<ExplodingSprite*>(*it);
+      if(!er && !godMode) //check to see if player can be destroyed
       {
       if ( strategy->execute(**it, **pit)) { 
       ExplodingSprite* eS = dynamic_cast<ExplodingSprite*>(*pit);
       if(!eS){
       const Sprite s(**pit,(*pit)->getFrame());
       Drawable* boom = new ExplodingSprite(s);
-      pit = playerSprites.erase(pit);
+      //pit = playerSprites.erase(pit);
       pit = playerSprites.insert(pit,boom);
+
 
           }//end es
       }//end strat execute
@@ -192,7 +198,31 @@ void Engine::checkForCollisions() {
 
 }
 
+void Engine::reset()
+{
+  godMode = false;
+  //reset lives when implemented
+  playerSprites[0]->setX(Gamedata::getInstance().getXmlInt("simba/startLoc/x"));
+  playerSprites[0]->setY(Gamedata::getInstance().getXmlInt("simba/startLoc/y"));
+
+  std::vector<Drawable*>::iterator it = wildabeasts.begin();
+  while (it != wildabeasts.end())
+  {
+    delete *it;
+    it = wildabeasts.erase(it);
+  }
+
+ unsigned int e = Gamedata::getInstance().getXmlInt("numberOfEnemys");
+  for(unsigned int i=0; i<e; ++i)
+  {
+    auto *s = new TwoWaySprite("wildabeast",1);
+    wildabeasts.push_back(s);
+  }
+
+}
+
 void Engine::play() {
+
   SDL_Event event;
   const Uint8* keystate;
   bool done = false;
@@ -200,6 +230,12 @@ void Engine::play() {
   FrameGenerator frameGen;
 
   while ( !done ) {
+
+  if(static_cast<ExplodingSprite*>(playerSprites[0])->chunkCount() == 0)
+  {
+    player.setDead(false);
+    playerSprites[0] = &player;
+  }
     while ( SDL_PollEvent(&event) ) {
       keystate = SDL_GetKeyboardState(NULL);
       if (event.type ==  SDL_QUIT) { done = true; break; }
@@ -214,8 +250,7 @@ void Engine::play() {
         }
 
         if( keystate[SDL_SCANCODE_R]){
-            //reset here something w chunk
-            wildabeasts[0] = new TwoWaySprite("wildabeast");
+            reset();
         }
 
          if( keystate[SDL_SCANCODE_G] && godMode){
@@ -295,7 +330,7 @@ void Engine::play() {
       clock.incrFrame();
       draw();
       update(ticks);
-      if(!godMode){ checkForCollisions();}
+      checkForCollisions();
       if ( makeVideo ) {
         frameGen.makeFrame();
       }

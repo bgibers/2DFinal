@@ -2,16 +2,15 @@ Name: Brendan Giberson
 
 Clemson Email Address: Bgibers@clemson.edu
 
-Project no: 4
+Project no: 5/6
 
-Project due date: April 3 2017
+Project due date: April 30 2017
 
-Project description: A simple SDL program consisting of tracker framework meant to display polymorphism in action.  My project contains simba running to his dad.  Bats are incorported using painters algorithm. In the future I would like for simba to need to avoid obstacles and be able to destroy them.  The time as well as number of lives it takes you to reach his dad will calculate a score. I used the following sources for my animation.  I used gimp to edit as needed.
+Project description: A simple SDL program consisting of tracker framework meant to display polymorphism in action.  My project contains simba running to his dad.  Bats are incorported using painters algorithm. Your goal is to avoid the herd of wildabeasts before they stampeed you! You can use the space button to shoot and the G button as a cheat code. Using the R button you can reset the game.  You have three tries respawning from where you died and after that the game restarts. 
 
 Sources:
-https://www.spriters-resource.com/resources/sheets/44/46699.png
-http://orig07.deviantart.net/3c51/f/2016/075/d/0/blue_mountains_animation_by_grayamaroq-d9vbn8y.gif
+http://spritedatabase.net/game/964&view=2
 
-The easiest part of this project: Creating the painters algorithm and hud.
+The easiest part of this project: Explosions and collison
 
-Problems that I had in completing this project: I got stuck overloading draw with 4 parameters as I already had a 4 parameter overload.  This caused my complete project to bug out but I could not find the where the bug was originating.  
+Problems that I had in completing this project: Shooting bugs out and does not work correctly when an enemy dies, I am not sure if my sound works due to the fact SDL sound does not run on macs nor the lab computers.  

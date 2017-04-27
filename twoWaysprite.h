@@ -11,6 +11,7 @@ public:
   TwoWaySprite(const std::string&);
   TwoWaySprite(const std::string&, const std::string&);
   TwoWaySprite(const TwoWaySprite&);
+  TwoWaySprite(const std::string&, const int);//added for random start
 
   virtual void draw() const;
   virtual void update(Uint32 ticks);
@@ -20,6 +21,7 @@ public:
   void setFrames(const std::vector<Frame *> f);
   //virtual Drawable* blowUp();
   virtual const std::vector<Frame *> allFrames() const {return frames;}
+  int randomStart() const;
 
 protected:
 

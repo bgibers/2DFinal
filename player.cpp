@@ -8,18 +8,18 @@ Player::Player(const std::string& name) : TwoWaySprite(name),
 intitialVelocity(getVelocity()), 
 slowDown(Gamedata::getInstance().getXmlFloat(name+"/slowDown")),
 bulletName( Gamedata::getInstance().getXmlStr(name+"/bullet") ),
-bullets( bulletName ){}//, clock(Clock::getInstance()){}
+bullets( bulletName ), dead(false){}//, clock(Clock::getInstance()){}
 
 Player::Player(const std::string& name, const std::string& name2) : TwoWaySprite(name, name2), 
 intitialVelocity(getVelocity()), 
 slowDown(Gamedata::getInstance().getXmlFloat(name+"/slowDown")),sitStatus(true),
 bulletName( Gamedata::getInstance().getXmlStr(name+"/bullet") ),
-bullets( bulletName ){}
+bullets( bulletName ), dead(false){}
 
 Player::Player(const Player& p) :
 TwoWaySprite(p), 
 intitialVelocity(p.intitialVelocity), slowDown(p.slowDown),bulletName(p.bulletName),
-bullets(p.bullets) {}
+bullets(p.bullets), dead(p.dead){}
 
 void Player::shoot() { 
   if(!sitStatus)

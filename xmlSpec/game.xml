@@ -7,6 +7,8 @@
 <maxStringSize>50</maxStringSize>
 
 <numberOfStars>10</numberOfStars>
+<numberOfEnemys>8</numberOfEnemys>
+
 
 <frameCapOn>true</frameCapOn>
 <period>17</period>
