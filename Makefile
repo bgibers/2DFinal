@@ -25,6 +25,7 @@ OBJS = \
 	bulletPool.o\
 	chunk.o\
 	scaledSprite.o\
+	smartSprite.o\
 	hud.o \
 	player.o\
 	vector2f.o \

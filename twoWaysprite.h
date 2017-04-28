@@ -22,7 +22,8 @@ public:
   //virtual Drawable* blowUp();
   virtual const std::vector<Frame *> allFrames() const {return frames;}
   int randomStart() const;
-
+  void setFlip(bool f){timeToFlip = f;}
+  bool getFlip(){return timeToFlip;}
 protected:
 
    std::vector<Frame *> frames;

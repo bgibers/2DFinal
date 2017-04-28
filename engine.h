@@ -8,6 +8,7 @@
 #include "viewport.h"
 #include "player.h"
 #include "multisprite.h"
+#include "smartSprite.h"
 
 class CollisionStrategy;
 
@@ -32,11 +33,13 @@ private:
   Player player;
   Player sit;
   MultiSprite dad;
+  SmartSprite follower;
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
   std::vector<Drawable*> wildabeasts;
   std::vector<Drawable*> playerSprites;
+  std::vector<Drawable*> smartSprites;
 
   int currentSprite;
   bool makeVideo;

@@ -119,6 +119,18 @@
   <transparency>true</transparency>
 </dad>
 
+<timon>
+  <file>images/Timon.png</file>
+  <startLoc x="10" y="480"/>
+  <frames>4</frames>
+  <frameInterval>200</frameInterval>
+  <minFrameDelay>0</minFrameDelay>
+  <slowDown>0</slowDown>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</timon>
+
 <wildabeast>
   <file>images/wildabeast.png</file>
   <startLoc x="500" y="460"/>

@@ -37,6 +37,7 @@ Engine::Engine() :
   player("simba","simbaSit"),
   sit("simbaSit"),
   dad("dad"),
+  follower("timon",&player),
   viewport( Viewport::getInstance() ),
   sprites(),
   wildabeasts(),
@@ -83,7 +84,8 @@ Engine::Engine() :
     auto *s = new TwoWaySprite("wildabeast",1);
     wildabeasts.push_back(s);
   }
-  
+
+  smartSprites.push_back(&follower);
   playerSprites.push_back(&player);
   viewport.setObjectToTrack(&player);
   //switchSprite();
@@ -104,6 +106,7 @@ void Engine::draw() const {
   sand.draw();
   playerSprites[0]->draw();
   player.bulletDraw();
+  smartSprites[0]->draw();
   for(auto w : wildabeasts)
   {
     w->draw();
@@ -133,6 +136,7 @@ void Engine::update(Uint32 ticks) {
   for(auto* s : sprites) s->update(ticks);
 
   playerSprites[0]->update(ticks);
+  smartSprites[0]->update(ticks);
 
   mtns.update();
   mid.update();
@@ -204,6 +208,9 @@ void Engine::reset()
   //reset lives when implemented
   playerSprites[0]->setX(Gamedata::getInstance().getXmlInt("simba/startLoc/x"));
   playerSprites[0]->setY(Gamedata::getInstance().getXmlInt("simba/startLoc/y"));
+
+  smartSprites[0]->setX(Gamedata::getInstance().getXmlInt("timon/startLoc/x"));
+  smartSprites[0]->setY(Gamedata::getInstance().getXmlInt("timon/startLoc/y"));
 
   std::vector<Drawable*>::iterator it = wildabeasts.begin();
   while (it != wildabeasts.end())
@@ -294,12 +301,14 @@ void Engine::play() {
     else if (keystate[SDL_SCANCODE_A])
     {
       player.left();
+      smartSprites[0]->update(ticks);
       //playerSprites[0]->update(ticks);
     }
 
     else if (keystate[SDL_SCANCODE_D])
     {
       player.right();
+      smartSprites[0]->update(ticks);
       //playerSprites[0]->update(ticks);
 
     }
