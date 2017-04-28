@@ -6,11 +6,11 @@ Project no: 5/6
 
 Project due date: April 30 2017
 
-Project description: A simple SDL program consisting of tracker framework meant to display polymorphism in action.  My project contains simba running to his dad.  Bats are incorported using painters algorithm. Your goal is to avoid the herd of wildabeasts before they stampeed you! You can use the space button to shoot(you must be moving) and the G button as a cheat code. Using the R button you can reset the game.  You have three tries respawning from where you died and after that the game restarts. My AI is a follower who simply follows simba around. Upon simba dying the follower will change sprites.
+Project description: A simple SDL program consisting of tracker framework meant to display polymorphism in action.  My project contains simba running to his dad.  Bats are incorported using painters algorithm. Your goal is to avoid the herd of wildabeasts before they stampeed you! You can use the space button to shoot(you must be moving) and the G button as a cheat code. Using the R button you can reset the game.  You have three tries respawning from where you died and after that the game restarts. My AI is a follower who simply follows simba around. Upon simba dying the follower will change sprites. Music is played throughout the game. Upon respawning a sound will play.  Another sound will play upon reaching the end.
 
 Sources:
 http://spritedatabase.net/game/964&view=2
 
 The easiest part of this project: Explosions and AI
 
-Problems that I had in completing this project: I am not sure if my sound works due to the fact SDL sound does not run on macs nor the lab computers.  
+Problems that I had in completing this project: Figuring out sound. It wouldnt work with certain files. 

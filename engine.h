@@ -9,6 +9,7 @@
 #include "player.h"
 #include "multisprite.h"
 #include "smartSprite.h"
+#include "sound.h"
 
 class CollisionStrategy;
 
@@ -26,6 +27,7 @@ private:
   const IOmod& io;
   Clock& clock;
   Hud& hud;
+  SDLSound& sound;
 
   SDL_Renderer * const renderer;
   World mtns;
@@ -36,6 +38,7 @@ private:
   MultiSprite dad;
   SmartSprite follower;
   Viewport& viewport;
+  
 
   std::vector<Drawable*> sprites;
   std::vector<Drawable*> wildabeasts;
@@ -47,6 +50,7 @@ private:
   CollisionStrategy* strategy;
   int deathCount;
   bool godMode;
+  bool gameOver;
 
   void draw() const;
   void update(Uint32);

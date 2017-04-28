@@ -10,6 +10,7 @@
 #include "gamedata.h"
 #include "engine.h"
 #include "frameGenerator.h"
+
 //#include "collisionStrategy.h"
 
 class SpriteCompare{
@@ -30,6 +31,7 @@ Engine::Engine() :
   io( IOmod::getInstance() ),
   clock( Clock::getInstance() ),
   hud( Hud::getInstance()),
+  sound(SDLSound::getInstance()),
   renderer( rc->getRenderer() ),
   mtns("mtns", Gamedata::getInstance().getXmlInt("mtns/factor") ),
   mid("mid", Gamedata::getInstance().getXmlInt("mid/factor") ),
@@ -47,7 +49,8 @@ Engine::Engine() :
   makeVideo( false ),
   strategy( new RectangularCollisionStrategy ), //here
   deathCount(0),
-  godMode(false)
+  godMode(false),
+  gameOver(false)
 {
   constexpr float u = 0.8f;//mean
   constexpr float d = 0.4f;//std
@@ -207,6 +210,10 @@ void Engine::checkForCollisions() {
   if(strategy->execute(dad,**pit))
   {
     hud.setGameover(true);
+    if(!gameOver){
+    sound[1];
+    }
+    gameOver = true;
   }
 
 }
@@ -219,9 +226,12 @@ void Engine::reset()
     player.setDead(false);
     playerSprites[0] = &player;
   }
+  //sound.stopMusic();
+  sound.startMusic();
   hud.setGameover(false);
   deathCount = 0;
   godMode = false;
+  gameOver = false;
   follower.changeFrame(false);
 
   smartSprites[0]->setX(Gamedata::getInstance().getXmlInt("timon/startLoc/x"));
@@ -250,18 +260,15 @@ void Engine::reset()
 
 void Engine::play() {
 
+
   SDL_Event event;
   const Uint8* keystate;
   bool done = false;
   Uint32 ticks = clock.getElapsedTicks();
   FrameGenerator frameGen;
+  
 
   while ( !done ) {
-
- 
-
- 
-  
 
     if (deathCount == 3){reset();}
 
@@ -270,6 +277,7 @@ void Engine::play() {
     player.setDead(false);
     ++deathCount;
     playerSprites[0] = &player;
+    sound[0];
   }
     while ( SDL_PollEvent(&event) ) {
       keystate = SDL_GetKeyboardState(NULL);
