@@ -37,7 +37,7 @@ Engine::Engine() :
   player("simba","simbaSit"),
   sit("simbaSit"),
   dad("dad"),
-  follower("timon",&player),
+  follower("timon","timonDead",&player),
   viewport( Viewport::getInstance() ),
   sprites(),
   wildabeasts(),
@@ -46,7 +46,7 @@ Engine::Engine() :
 
   makeVideo( false ),
   strategy( new RectangularCollisionStrategy ), //here
-  collisions(0),
+  deathCount(0),
   godMode(false)
 {
   constexpr float u = 0.8f;//mean
@@ -104,9 +104,11 @@ void Engine::draw() const {
     sprites[i]->draw();
   }
   sand.draw();
+
+  smartSprites[0]->draw();
   playerSprites[0]->draw();
   player.bulletDraw();
-  smartSprites[0]->draw();
+  
   for(auto w : wildabeasts)
   {
     w->draw();
@@ -115,15 +117,13 @@ void Engine::draw() const {
 
   SDL_Color red ={255,0,0,0};
 
-
-  // std::stringstream strm;
-  // strm << "fps: " << clock.getFps();
-  // io.writeText(strm.str(), 30, 60);
-
   std::stringstream strm1;
-  // strm1 << "avg fps: " << clock.getAvgFps();
-  // io.writeText(strm1.str(), 30, 90);
+
   io.writeText(Gamedata::getInstance().getXmlStr("screenTitle"),30,440,red);
+
+  std::stringstream strm2;
+  strm2 << "Lives lost: " << getDeathcnt();
+  io.writeText(strm2.str(),380,30,red);
 
   //for(auto* s : sprites) s->draw();
   hud.draw();
@@ -150,6 +150,9 @@ void Engine::update(Uint32 ticks) {
   // {
   //     playerSprites[0]->update(ticks);
   // }
+
+  
+
   viewport.update(); // always update viewport last
 }
 
@@ -189,7 +192,9 @@ void Engine::checkForCollisions() {
       Drawable* boom = new ExplodingSprite(s);
       //pit = playerSprites.erase(pit);
       pit = playerSprites.insert(pit,boom);
-
+      
+      
+      player.setDead(true);
 
           }//end es
       }//end strat execute
@@ -199,18 +204,33 @@ void Engine::checkForCollisions() {
      ++it;
   }//end while
 
+  if(strategy->execute(dad,**pit))
+  {
+    hud.setGameover(true);
+  }
 
 }
 
 void Engine::reset()
 {
+
+   if(static_cast<ExplodingSprite*>(playerSprites[0]))
+  {
+    player.setDead(false);
+    playerSprites[0] = &player;
+  }
+  hud.setGameover(false);
+  deathCount = 0;
   godMode = false;
+  follower.changeFrame(false);
+
+  smartSprites[0]->setX(Gamedata::getInstance().getXmlInt("timon/startLoc/x"));
+  smartSprites[0]->setY(Gamedata::getInstance().getXmlInt("timon/startLoc/y"));
   //reset lives when implemented
   playerSprites[0]->setX(Gamedata::getInstance().getXmlInt("simba/startLoc/x"));
   playerSprites[0]->setY(Gamedata::getInstance().getXmlInt("simba/startLoc/y"));
 
-  smartSprites[0]->setX(Gamedata::getInstance().getXmlInt("timon/startLoc/x"));
-  smartSprites[0]->setY(Gamedata::getInstance().getXmlInt("timon/startLoc/y"));
+ 
 
   std::vector<Drawable*>::iterator it = wildabeasts.begin();
   while (it != wildabeasts.end())
@@ -238,9 +258,17 @@ void Engine::play() {
 
   while ( !done ) {
 
+ 
+
+ 
+  
+
+    if (deathCount == 3){reset();}
+
   if(static_cast<ExplodingSprite*>(playerSprites[0])->chunkCount() == 0)
   {
     player.setDead(false);
+    ++deathCount;
     playerSprites[0] = &player;
   }
     while ( SDL_PollEvent(&event) ) {
@@ -262,11 +290,13 @@ void Engine::play() {
 
          if( keystate[SDL_SCANCODE_G] && godMode){
             godMode = false;
-             std::cout << "GodMode off" << std::endl;
+            hud.setGodmode(false);
+            std::cout << "GodMode off" << std::endl;
         }
 
          else if( keystate[SDL_SCANCODE_G] && !godMode){
             godMode = true;
+            hud.setGodmode(true);
             std::cout << "GodMode on" << std::endl;
         }
 

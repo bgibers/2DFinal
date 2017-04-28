@@ -11,10 +11,11 @@
 
 class SmartSprite : public TwoWaySprite {
 public:
-  SmartSprite(const std::string&, Player*);
+  SmartSprite(const std::string&, const std::string&, Player*);
   void update(Uint32 ticks);
   void goLeft();
   void goRight();
+  void changeFrame(bool);
 
 private:
   Player* player;

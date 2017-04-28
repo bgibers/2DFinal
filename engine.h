@@ -19,6 +19,7 @@ public:
   void play();
   void switchSprite();
   void checkForCollisions();
+  int getDeathcnt() const {return deathCount;}
 
 private:
   const RenderContext* rc;
@@ -44,7 +45,7 @@ private:
   int currentSprite;
   bool makeVideo;
   CollisionStrategy* strategy;
-  int collisions;
+  int deathCount;
   bool godMode;
 
   void draw() const;

@@ -14,6 +14,8 @@ public:
 	void draw() const;
 	bool getDisplay() const{return display;}
 	void setDisplay(bool set) {display = set;}
+	void setGodmode(bool set) {godmode = set;}
+	void setGameover(bool set) {gameOver = set;}
 
 private:
 	Hud();
@@ -21,6 +23,8 @@ private:
 	Hud& operator=(const Hud&);
 
 	bool display;
+	bool godmode;
+	bool gameOver;
 	unsigned int width;
 	unsigned int height;
 

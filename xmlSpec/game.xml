@@ -121,7 +121,7 @@
 
 <timon>
   <file>images/Timon.png</file>
-  <startLoc x="10" y="480"/>
+  <startLoc x="10" y="460"/>
   <frames>4</frames>
   <frameInterval>200</frameInterval>
   <minFrameDelay>0</minFrameDelay>
@@ -130,6 +130,18 @@
   <speedY>0</speedY>
   <transparency>true</transparency>
 </timon>
+
+<timonDead>
+  <file>images/TimonDead.png</file>
+  <startLoc x="10" y="440"/>
+  <frames>5</frames>
+  <frameInterval>200</frameInterval>
+  <minFrameDelay>0</minFrameDelay>
+  <slowDown>0</slowDown>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</timonDead>
 
 <wildabeast>
   <file>images/wildabeast.png</file>
@@ -148,7 +160,7 @@
 </wildabeast>
 
 <hud>
-  <width>300</width>
+  <width>310</width>
   <height>150</height>
   <xCoord>25</xCoord>
   <yCoord>30</yCoord>
